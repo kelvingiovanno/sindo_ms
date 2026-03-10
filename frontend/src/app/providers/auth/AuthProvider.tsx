@@ -1,7 +1,7 @@
 
 import api from "@/api/apit";
-import { AuthContext } from "@/context/AuthContext";
-import type { User } from "@/types";
+import { AuthContext } from "./AuthContext";
+import type { User } from "@/shared/types";
 import React, { useEffect, useState } from "react";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -32,6 +32,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             username: username,
             password: password,
         });
+
+        
 
         setUser(response.data);
     }

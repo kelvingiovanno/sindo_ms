@@ -1,7 +1,7 @@
-import useAuth from "@/hooks/useAuth"
+import { useAuth } from '@/app/providers/auth';
 import { Outlet, useNavigate } from "react-router";
 
-const MainLayout = () => {
+export const MainLayout = () => {
     
     const auth = useAuth();
     const navigate = useNavigate();
@@ -17,5 +17,3 @@ const MainLayout = () => {
         </>
     )
 }
-
-export default MainLayout;

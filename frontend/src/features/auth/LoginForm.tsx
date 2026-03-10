@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input"
-import { Label } from "../components/ui/label"
+import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { Spinner } from "@/components/ui/spinner"
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router"
 import { AxiosError } from "axios"
 import useAuth from "@/hooks/useAuth"
 
-const SignIn = () => {
+const LoginForm = () => {
 
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -78,4 +78,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default LoginForm

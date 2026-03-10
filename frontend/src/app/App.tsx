@@ -1,13 +1,13 @@
-import { RouterProvider } from 'react-router'
-import router from './router'
+
 import { Toaster } from 'sonner'
-import { AuthProvider } from './providers/AuthProvider'
+import { AuthProvider } from './providers/auth'
+import RouterProvider from './providers/router/RouterProvider'
 import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 
-function App() {
+export const App = () => {
 
   const queryClient = new QueryClient()
 
@@ -16,11 +16,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Toaster />
         <AuthProvider>
-          <RouterProvider router={router}  />
+          <RouterProvider/>
         </AuthProvider>
       </QueryClientProvider>
     </>
   )
 }
-
-export default App
