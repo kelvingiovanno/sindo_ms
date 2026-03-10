@@ -1,22 +1,23 @@
 
-import api from "@/api/apit";
+import { api, setAccessToken } from "@/shared/lib/api";
 import { AuthContext } from "./AuthContext";
-import type { User } from "@/shared/types";
 import React, { useEffect, useState } from "react";
+import { clearAllCookies } from "@/shared/lib";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     
-    const [user, setUser] = useState<User|null>(null);
+    const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const loadUser = async () => {
             try {
-                const response = await api.get<User>('/me');
-                setUser(response.data);
+                const res = await api.get('/me');
+                setAccessToken(res.data.accessToken);
+                setAuthenticated(true)
             } 
             catch {
-                setUser(null);
+                setAuthenticated(false);
             }
             finally {
                 setLoading(false);
@@ -28,28 +29,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const login = async (username: string, password: string) => {
 
-        const response = await api.post<User>('/auth/signin', {
+        const response = await api.post('/auth/signin', {
             username: username,
             password: password,
         });
 
-        
+        setAccessToken(response.data.accessToken);
 
-        setUser(response.data);
+        setAuthenticated(true);
     }
 
     const logout = async () => {
         await api.post('/signout');
-        setUser(null);
+        setAccessToken(null);
+        clearAllCookies();
     }
 
     const value = {
-        user, 
+        isAuthenticated,
+        isLoading, 
         login,
         logout,
-        isAuthenticated: !!user,
-        isAdmin: user?.role === 'ADMIN',
-        isLoading,
     }
 
     return (

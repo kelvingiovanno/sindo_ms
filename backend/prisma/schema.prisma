@@ -30,7 +30,7 @@ model User {
 
 model Refresh {
   id String   @id @default(uuid())
-  token String @unique()
+  token String @db.Text
   userId String
   createdAt DateTime @default(now())
   expiresIn DateTime

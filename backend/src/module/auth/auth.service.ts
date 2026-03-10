@@ -63,7 +63,7 @@ export class AuthService {
     }
 
     async logout(refreshToken: string) {
-        const token = await this.prismaService.refresh.findUnique({
+        const token = await this.prismaService.refresh.findFirst({
             where: { token: refreshToken },
         });
 
@@ -71,7 +71,7 @@ export class AuthService {
             throw new UnauthorizedException('Invalid token');
         }
 
-        await this.prismaService.refresh.delete({
+        await this.prismaService.refresh.deleteMany({
             where: { token: refreshToken },
         });
 
@@ -89,7 +89,7 @@ export class AuthService {
                 },
             );
 
-            const refreshToken = await this.prismaService.refresh.findUnique({
+            const refreshToken = await this.prismaService.refresh.findFirst({
                 where: { token },
             });
 

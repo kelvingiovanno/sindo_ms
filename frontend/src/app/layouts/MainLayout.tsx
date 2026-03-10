@@ -3,12 +3,12 @@ import { Outlet, useNavigate } from "react-router";
 
 export const MainLayout = () => {
     
-    const auth = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     const navigate = useNavigate();
 
-    if (!auth) {
-        navigate('/auth/signin')    
-    }
+    if(isLoading) (<p>auth loading..</p>);
+
+    if (!isAuthenticated) navigate('/auth/signin');
 
     return (
         <>

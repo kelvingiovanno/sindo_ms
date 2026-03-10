@@ -5,10 +5,11 @@ import {
     HttpStatus,
     Post,
     Req,
+    Res,
     UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { User } from 'generated/prisma/client';
 import { JwtAuthGuard } from 'src/common/guards';
@@ -28,20 +29,39 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('signin')
     @HttpCode(HttpStatus.OK)
-    async signin(@Req() req: Request) {
+    async signin(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
+    ) {
         const user = req.user;
         const tokens = await this.authService.generateTokens(user as User);
 
+        res.cookie('refreshToken', tokens.refreshToken, {
+            httpOnly: true,
+            sameSite: 'lax',
+            secure: true,
+        });
+
         return {
-            access_token: tokens.accessToken,
-            refresh_token: tokens.refreshToken,
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
         };
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('signout')
     @HttpCode(HttpStatus.OK)
-    async logout(@Body('refresh_token') refreshToken: string) {
+    async logout(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
+        @Body('refresh_token') refreshToken: string,
+    ) {
+        const cookies = req.cookies;
+
+        for (const cookie in cookies) {
+            res.clearCookie(cookie);
+        }
+
         await this.authService.logout(refreshToken);
     }
 
@@ -50,7 +70,7 @@ export class AuthController {
     async refresh(@Body('refresh_token') refreshToken: string) {
         const accessToken = await this.authService.refresh(refreshToken);
         return {
-            access_token: accessToken,
+            accessToken: accessToken,
         };
     }
 }

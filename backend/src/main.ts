@@ -22,6 +22,8 @@ async function bootstrap() {
 
     app.use(cookieParser());
 
+    app.setGlobalPrefix('api');
+
     const configService = app.get(ConfigService);
 
     const port = configService.getOrThrow<number>('SERVER_PORT');
