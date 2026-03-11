@@ -25,28 +25,35 @@ export class AuthService {
         return user;
     }
 
-    async generateTokens(user: User) {
+    async me(payload: JwtPayload) {
+        const user = await this.prismaService.user.findUnique({
+            where: { id: payload.sub },
+        });
+
+        if (!user)
+            throw new UnauthorizedException('Invalid or revoked account');
+
+        if (user.isRevoked)
+            throw new UnauthorizedException('Invalid or revoked account');
+
+        const accessToken = await this.gAccessToken(payload);
+
+        return accessToken;
+    }
+
+    async gTokens(user: User) {
         const payload: JwtPayload = {
             sub: user.id,
             role: user.role,
             username: user.username,
         };
 
-        const accessToken = await this.jwtService.signAsync(payload, {
-            secret: this.configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
-            expiresIn: this.configService.getOrThrow<number>(
-                'JWT_ACCESS_EXPIRES_IN',
-            ),
-        });
+        const accessToken = await this.gAccessToken(payload);
+        const refreshToken = await this.gRefreshToken(payload);
 
         const refreshExpiresIn = this.configService.getOrThrow<number>(
             'JWT_REFRESH_EXPIRES_IN',
         );
-
-        const refreshToken = await this.jwtService.signAsync(payload, {
-            secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
-            expiresIn: refreshExpiresIn,
-        });
 
         await this.prismaService.refresh.create({
             data: {
@@ -107,5 +114,23 @@ export class AuthService {
         } catch {
             throw new UnauthorizedException('Invalid or expired token');
         }
+    }
+
+    private async gAccessToken(payload: JwtPayload): Promise<string> {
+        return this.jwtService.signAsync(payload, {
+            secret: this.configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
+            expiresIn: this.configService.getOrThrow<number>(
+                'JWT_ACCESS_EXPIRES_IN',
+            ),
+        });
+    }
+
+    private async gRefreshToken(payload: JwtPayload): Promise<string> {
+        return await this.jwtService.signAsync(payload, {
+            secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+            expiresIn: this.configService.getOrThrow<number>(
+                'JWT_REFRESH_EXPIRES_IN',
+            ),
+        });
     }
 }

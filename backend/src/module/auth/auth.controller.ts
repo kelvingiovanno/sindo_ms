@@ -22,8 +22,13 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @Post('me')
     @HttpCode(HttpStatus.OK)
-    me(@Req() req: AuthRequest) {
-        return req.user;
+    async me(@Req() req: AuthRequest) {
+        const payload = req.user;
+        const newAccessToken = await this.authService.me(payload);
+
+        return {
+            accessToken: newAccessToken,
+        };
     }
 
     @UseGuards(LocalAuthGuard)
@@ -34,7 +39,7 @@ export class AuthController {
         @Res({ passthrough: true }) res: Response,
     ) {
         const user = req.user;
-        const tokens = await this.authService.generateTokens(user as User);
+        const tokens = await this.authService.gTokens(user as User);
 
         res.cookie('refreshToken', tokens.refreshToken, {
             httpOnly: true,

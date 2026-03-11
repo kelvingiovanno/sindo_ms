@@ -21,6 +21,7 @@ model User {
   fullname String
   username String @unique
   password String
+  isRevoked Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
