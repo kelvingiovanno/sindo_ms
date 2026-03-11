@@ -27,7 +27,7 @@ api.interceptors.response.use(
 
         if (!req) return Promise.reject(error);
 
-        if (req.url === "/auth/refresh") {
+        if (req.url === "/auth/refresh" || req.url === "/auth/signin") {
             return Promise.reject(error);
         }
 
@@ -36,9 +36,7 @@ api.interceptors.response.use(
 
             try {
                 const res = await api.post("/auth/refresh", {}, { withCredentials: true });
-
                 setAccessToken(res.data.accessToken);
-
                 return api(req);
             } catch {
                 return Promise.reject(error);

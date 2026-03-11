@@ -1,14 +1,17 @@
-import { useAuth } from '@/app/providers/auth';
-import { Outlet, useNavigate } from "react-router";
+import { useAuth } from '@/app/providers/auth'
+import { Outlet, Navigate } from "react-router"
 
-export const MainLayout = () => {
-    
-    const { isAuthenticated, isLoading } = useAuth();
-    const navigate = useNavigate();
+const MainLayout = () => {
 
-    if(isLoading) (<p>auth loading..</p>);
+    const { isAuthenticated, isLoading } = useAuth()
 
-    if (!isAuthenticated) navigate('/auth/signin');
+    if (isLoading) {
+        return <p>auth loading...</p>
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/signin" replace />
+    }
 
     return (
         <>
@@ -17,3 +20,5 @@ export const MainLayout = () => {
         </>
     )
 }
+
+export default MainLayout;
