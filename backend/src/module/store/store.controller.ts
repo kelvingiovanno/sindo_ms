@@ -8,8 +8,7 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/common/guards';
-import { RoleGuard } from 'src/common/guards/role.guard';
+import { JwtGuard, RoleGuard } from 'src/common/guards';
 import { StoreService } from './store.service';
 import { Roles } from 'src/common/decorators';
 import { UserRole } from 'generated/prisma/enums';
@@ -20,7 +19,7 @@ import {
     UpdateStoreDto,
 } from './dto';
 
-@UseGuards(JwtAuthGuard, RoleGuard)
+@UseGuards(JwtGuard, RoleGuard)
 @Controller('stores')
 export class StoreController {
     constructor(private readonly storeService: StoreService) {}

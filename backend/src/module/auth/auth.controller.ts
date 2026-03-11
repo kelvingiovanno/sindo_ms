@@ -10,16 +10,15 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import type { Request, Response } from 'express';
-import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { User } from 'generated/prisma/client';
-import { JwtAuthGuard } from 'src/common/guards';
 import type { AuthRequest } from 'src/common/types';
+import { LocalGuard, JwtGuard } from 'src/common/guards';
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtGuard)
     @Post('me')
     @HttpCode(HttpStatus.OK)
     async me(@Req() req: AuthRequest) {
@@ -31,7 +30,7 @@ export class AuthController {
         };
     }
 
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(LocalGuard)
     @Post('signin')
     @HttpCode(HttpStatus.OK)
     async signin(
@@ -53,7 +52,7 @@ export class AuthController {
         };
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtGuard)
     @Post('signout')
     @HttpCode(HttpStatus.OK)
     async logout(
