@@ -4,6 +4,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 
 import LoginPage from "@/features/auth/LoginPage";
+import StoreSelectorPage from "@/features/store/StoreSelectorPage";
 import DashboardPage from "@/features/dashboard/DashboardPage";
 
 const router = createBrowserRouter([
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'signin',
-                Component: LoginPage,
+                Component: StoreSelectorPage,
             }
         ]
     },

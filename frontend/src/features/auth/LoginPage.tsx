@@ -1,5 +1,5 @@
 import { useAuth } from "@/app/providers/auth";
-import { Button, FieldTitle, Input, Spinner } from "@/shared/components/ui";
+import {  Input, Spinner, FieldButton, Field, FieldLabel } from "@/shared/components/ui";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -40,14 +40,14 @@ const LoginPage = () => {
 
 
     return (
-        <div className="bg-white p-10 rounded-sm space-y-6 w-md sm:border border-slate-300">
+        <div className="bg-white px-14 py-16 rounded-sm space-y-6 w-lg sm:border border-slate-300">
             <h1 className="text-h1 mb-2">Sindo MS</h1>
             <p className="text-small">Sign in to your account</p>
             <form className="space-y-4 mt-10" onSubmit={onSubmitAction}>
-                <div className="space-y-3">
-                    <FieldTitle>
+                <Field>
+                    <FieldLabel >
                         Username
-                    </FieldTitle>
+                    </FieldLabel>
                     <Input 
                         placeholder="Enter your username"
                         name="username"
@@ -55,11 +55,11 @@ const LoginPage = () => {
                         value={username}
                         onChange={(e) => {setUsername(e.target.value)}}
                     />
-                </div>
-                <div className="space-y-3">
-                    <FieldTitle>
+                </Field>
+                <Field>
+                    <FieldLabel>
                         Password
-                    </FieldTitle>
+                    </FieldLabel>
                     <Input 
                         placeholder="Enter your password"
                         name="password" 
@@ -67,14 +67,14 @@ const LoginPage = () => {
                         value={password}
                         onChange={(e) => {setPassword(e.target.value)}}
                     />
-                </div>
-                <Button 
-                    className="w-full mt-4 cursor-pointer" 
+                </Field>
+                <FieldButton 
                     type="submit"
                     disabled={isLoading}
+                    className="mt-6"
                 >
                     {isLoading ?  <>Processing <Spinner className="size-3"/></> : 'Sign In' }
-                </Button>
+                </FieldButton>
             </form>
         </div>
     )
