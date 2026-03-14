@@ -32,7 +32,10 @@ export class AuthService {
 
     async login(userId: string) {
         const stores = await this.storeAccessService.getUserStoreAccess(userId);
-        return stores;
+        return {
+            userId,
+            stores,
+        };
     }
 
     async selectStore(storeId: string, userId: string) {
@@ -109,6 +112,7 @@ export class AuthService {
 
     async refresh(token: string) {
         try {
+            console.log(token);
             const payload = await this.vRefreshToken(token);
 
             const refreshToken = await this.prismaService.refresh.findFirst({

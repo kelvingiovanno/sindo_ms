@@ -4,6 +4,7 @@ interface Context {
     isAuthenticated: boolean;
     isLoading: boolean;
     login: (username: string, password: string) => void;
+    selectStore: (storeId: string, userId: string) => void;
     logout: () => void;
 }
 

@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router";
 
-import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
 
 import LoginPage from "@/features/auth/LoginPage";
@@ -11,12 +10,15 @@ import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
     {
-        Component: AuthLayout,
         children: [
             {
                 path: 'signin',
                 Component: LoginPage,
-            }
+            },
+            {
+                path: 'select-store',
+                Component: StoreSelectorPage,
+            },
         ]
     },
     {
@@ -31,10 +33,7 @@ const router = createBrowserRouter([
                     },
                 ],
             },
-            {
-                path: 'select-store',
-                Component: StoreSelectorPage,
-            },
+            
         ]
     }
 ])

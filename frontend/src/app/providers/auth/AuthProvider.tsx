@@ -2,7 +2,7 @@ import { api, setAccessToken } from "@/shared/lib/api";
 import { AuthContext } from "./AuthContext";
 import React, { useEffect, useState } from "react";
 import { clearAllCookies } from "@/shared/lib";
-import type { AuthLoginResponse, AuthMeResponse } from "@/shared/types";
+import type { LoginApiResponse, RefreshApiResponse, SelecStoreApiResponse } from "@/shared/types";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
@@ -10,10 +10,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (isAuthenticated) return;
+    
         const loadUser = async () => {
             try {
-                const res = await api.post<AuthMeResponse>('auth/refresh');
+                const res = await api.post<RefreshApiResponse>('auth/refresh');
                 setAccessToken(res.data.accessToken);
                 setAuthenticated(true)
             } 
@@ -31,16 +31,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const login = async (username: string, password: string) => {
 
-        const res = await api.post<AuthLoginResponse>('/auth/signin', {
+        const res = await api.post<LoginApiResponse>('/auth/signin', {
             username: username,
             password: password,
         });
 
         const data = res.data;
     
-        setAccessToken(data.accessToken);
-        setAuthenticated(true);
         return data;    
+    }
+
+    const selectStore = async (storeId: string, userId: string) => {
+        const res = await api.post<SelecStoreApiResponse>('/auth/select-store', {
+            userId,
+            storeId,
+        });
+        
+        const { accessToken } = res.data;
+        
+        setAccessToken(accessToken);
+        setAuthenticated(true);
     }
 
     const logout = async () => {
@@ -53,6 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated,
         isLoading, 
         login,
+        selectStore,
         logout,
     }
 

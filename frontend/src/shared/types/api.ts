@@ -1,12 +1,16 @@
-export type AuthMeResponse = {
-    accessToken: string;
-};
-
-export type AuthLoginResponse = {
-    accessToken: string;
-    refreshToken: string;
+export type LoginApiResponse = {
+    userId: string,
     stores: {
         storeId: string,
         storeName: string,
     }[],
+}
+
+export type RefreshApiResponse = {
+    accessToken: string,
+}
+
+export type SelecStoreApiResponse = {
+    accessToken: string,
+    refreshToken: string,
 }

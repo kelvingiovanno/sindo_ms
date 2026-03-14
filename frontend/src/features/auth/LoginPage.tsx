@@ -21,11 +21,8 @@ const LoginPage = () => {
         try {
             setIsLoading(true);
             const res = await login(username, password);
-            toast.success("wellcome back", {position: 'top-center'});
             navigate('/select-store', {
-                state: {
-                    stores: res,
-                },
+                state: res,
             });
         }
         catch (error){
@@ -44,42 +41,44 @@ const LoginPage = () => {
 
 
     return (
-        <div className="bg-white px-14 py-16 rounded-sm space-y-6 w-lg sm:border border-slate-300">
-            <h1 className="text-h1 mb-2">Sindo MS</h1>
-            <p className="text-small">Sign in to your account</p>
-            <form className="space-y-4 mt-10" onSubmit={onSubmitAction}>
-                <Field>
-                    <FieldLabel >
-                        Username
-                    </FieldLabel>
-                    <Input 
-                        placeholder="Enter your username"
-                        name="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => {setUsername(e.target.value)}}
-                    />
-                </Field>
-                <Field>
-                    <FieldLabel>
-                        Password
-                    </FieldLabel>
-                    <Input 
-                        placeholder="Enter your password"
-                        name="password" 
-                        type="password" 
-                        value={password}
-                        onChange={(e) => {setPassword(e.target.value)}}
-                    />
-                </Field>
-                <FieldButton 
-                    type="submit"
-                    disabled={isLoading}
-                    className="mt-6"
-                >
-                    {isLoading ?  <>Processing <Spinner className="size-3"/></> : 'Sign In' }
-                </FieldButton>
-            </form>
+        <div className="w-full h-screen sm:bg-slate-200 flex justify-center items-center">
+            <div className="bg-white px-14 py-16 rounded-sm space-y-6 w-lg sm:border border-slate-300">
+                <h1 className="text-h1 mb-2">Sindo MS</h1>
+                <p className="text-small">Sign in to your account</p>
+                <form className="space-y-4 mt-10" onSubmit={onSubmitAction}>
+                    <Field>
+                        <FieldLabel >
+                            Username
+                        </FieldLabel>
+                        <Input 
+                            placeholder="Enter your username"
+                            name="username"
+                            type="text"
+                            value={username}
+                            onChange={(e) => {setUsername(e.target.value)}}
+                        />
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Password
+                        </FieldLabel>
+                        <Input 
+                            placeholder="Enter your password"
+                            name="password" 
+                            type="password" 
+                            value={password}
+                            onChange={(e) => {setPassword(e.target.value)}}
+                        />
+                    </Field>
+                    <FieldButton 
+                        type="submit"
+                        disabled={isLoading}
+                        className="mt-6"
+                    >
+                        {isLoading ?  <>Processing <Spinner className="size-3"/></> : 'Sign In' }
+                    </FieldButton>
+                </form>
+            </div>
         </div>
     )
 }

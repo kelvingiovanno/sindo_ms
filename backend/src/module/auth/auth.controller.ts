@@ -27,7 +27,7 @@ export class AuthController {
         return await this.authService.login(user.id);
     }
 
-    @Post('selec-store')
+    @Post('select-store')
     @HttpCode(HttpStatus.OK)
     async selectStore(
         @Body('storeId', ParseUUIDPipe) storeId: string,
@@ -40,7 +40,6 @@ export class AuthController {
             httpOnly: true,
             sameSite: 'strict',
             secure: true,
-            path: '/auth/refresh',
         });
 
         return {
