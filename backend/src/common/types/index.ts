@@ -1,2 +1,2 @@
 export * from './Payload';
-export * from './AuthRequest';
+export * from './Request';

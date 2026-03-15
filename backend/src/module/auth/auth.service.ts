@@ -1,6 +1,7 @@
 import {
     ForbiddenException,
     Injectable,
+    NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -58,6 +59,22 @@ export class AuthService {
         const accessToken = await this.gAccessToken(payload);
         const refreshToken = await this.gRefreshToken(payload);
 
+        const expiresIn = Number(
+            this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
+        );
+
+        await this.prismaService.refresh.deleteMany({
+            where: { userId: userId },
+        });
+
+        await this.prismaService.refresh.create({
+            data: {
+                token: refreshToken,
+                userId,
+                expiresIn: new Date(Date.now() + expiresIn * 1000),
+            },
+        });
+
         return {
             accessToken,
             refreshToken,
@@ -84,35 +101,40 @@ export class AuthService {
         const newAccessToken = await this.gAccessToken(newPayload);
         const newRefreshToken = await this.gRefreshToken(newPayload);
 
+        const expiresIn = Number(
+            this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
+        );
+
+        await this.prismaService.refresh.deleteMany({
+            where: { userId: userId },
+        });
+
+        await this.prismaService.refresh.create({
+            data: {
+                token: newRefreshToken,
+                userId,
+                expiresIn: new Date(Date.now() + expiresIn * 1000),
+            },
+        });
+
         return {
             newAccessToken,
             newRefreshToken,
         };
     }
 
-    async logout(refreshToken: string) {
-        try {
-            await this.vRefreshToken(refreshToken);
+    async logout(userId: string) {
+        const deleteToken = await this.prismaService.refresh.deleteMany({
+            where: { userId },
+        });
 
-            const token = await this.prismaService.refresh.findFirst({
-                where: { token: refreshToken },
-            });
-
-            if (!token) {
-                throw new UnauthorizedException('Invalid token');
-            }
-
-            await this.prismaService.refresh.deleteMany({
-                where: { token: refreshToken },
-            });
-        } catch {
-            throw new UnauthorizedException('Invalid token');
+        if (deleteToken.count === 0) {
+            throw new NotFoundException('User not found');
         }
     }
 
     async refresh(token: string) {
         try {
-            console.log(token);
             const payload = await this.vRefreshToken(token);
 
             const refreshToken = await this.prismaService.refresh.findFirst({

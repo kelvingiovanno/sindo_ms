@@ -1,7 +1,6 @@
 import { api, setAccessToken } from "@/shared/lib/api";
 import { AuthContext } from "./AuthContext";
 import React, { useEffect, useState } from "react";
-import { clearAllCookies } from "@/shared/lib";
 import type { LoginApiResponse, RefreshApiResponse, SelecStoreApiResponse } from "@/shared/types";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -10,7 +9,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-    
+
+        const isPublicRoute = ['/signin', '/selec-store'];
+
         const loadUser = async () => {
             try {
                 const res = await api.post<RefreshApiResponse>('auth/refresh');
@@ -26,7 +27,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
         };
 
-        loadUser();
+        if (!isPublicRoute.includes(window.location.pathname)) {
+            loadUser();
+        }
+
     }, [isAuthenticated]);
 
     const login = async (username: string, password: string) => {
@@ -54,9 +58,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const logout = async () => {
-        await api.post('/signout');
+        await api.post('/auth/signout');
         setAccessToken(null);
-        clearAllCookies();
+        setAuthenticated(false);
     }
 
     const value = {

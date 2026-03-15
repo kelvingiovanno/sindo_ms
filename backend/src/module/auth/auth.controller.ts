@@ -11,9 +11,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import type { Request, Response } from 'express';
-import { User } from 'generated/prisma/client';
 import { LocalGuard, JwtGuard } from 'src/common/guards';
-import { type AuthRequest } from 'src/common/types';
+import type { LocalRequest, JwtRequest } from 'src/common/types';
 
 @Controller('auth')
 export class AuthController {
@@ -22,8 +21,8 @@ export class AuthController {
     @UseGuards(LocalGuard)
     @Post('signin')
     @HttpCode(HttpStatus.OK)
-    async signin(@Req() req: Request) {
-        const user = req.user as User;
+    async signin(@Req() req: LocalRequest) {
+        const user = req.user;
         return await this.authService.login(user.id);
     }
 
@@ -40,6 +39,7 @@ export class AuthController {
             httpOnly: true,
             sameSite: 'strict',
             secure: true,
+            path: '/api/auth/refresh',
         });
 
         return {
@@ -51,7 +51,7 @@ export class AuthController {
     @Post('switch-store')
     @HttpCode(HttpStatus.OK)
     async switchStore(
-        @Req() req: AuthRequest,
+        @Req() req: JwtRequest,
         @Res({ passthrough: true }) res: Response,
     ) {
         const user = req.user;
@@ -67,7 +67,7 @@ export class AuthController {
             httpOnly: true,
             sameSite: 'strict',
             secure: true,
-            path: '/auth/refresh',
+            path: '/api/auth/refresh',
         });
 
         return {
@@ -89,11 +89,11 @@ export class AuthController {
     @Post('signout')
     @HttpCode(HttpStatus.OK)
     async signout(
-        @Req() req: Request,
+        @Req() req: JwtRequest,
         @Res({ passthrough: true }) res: Response,
     ) {
-        const refreshToken = req.cookies.refreshToken as string;
-        await this.authService.logout(refreshToken);
+        const userId = req.user.sub;
+        await this.authService.logout(userId);
         res.clearCookie('refreshToken');
         return { message: 'Signed out successfully' };
     }

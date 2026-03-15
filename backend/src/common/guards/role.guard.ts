@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { AuthRequest } from '../types';
+import { JwtRequest } from '../types';
 import { Reflector } from '@nestjs/core';
 import { Roles } from '../decorators';
 
@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
         const handler = context.getHandler();
 
         const roles = this.reflector.get(Roles, handler);
-        const req = ctx.getRequest<AuthRequest>();
+        const req = ctx.getRequest<JwtRequest>();
 
         if (!roles) {
             return true;

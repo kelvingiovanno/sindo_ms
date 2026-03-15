@@ -16,7 +16,7 @@ const StoreSelectorPage = () => {
   const location = useLocation();
   const { isAuthenticated, selectStore } = useAuth();
 
-  const state = location.state as LocationState | null;
+  const state: LocationState | null = location.state;
 
   if (isAuthenticated) {
     return <Navigate to={'/'}/>
