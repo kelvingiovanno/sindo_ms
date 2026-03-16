@@ -41,7 +41,7 @@ const LoginPage = () => {
 
 
     return (
-        <div className="w-full h-screen sm:bg-slate-200 flex justify-center items-center">
+        <div className="w-full h-screen sm:bg-slate-100 flex justify-center items-center">
             <div className="bg-white px-14 py-16 rounded-sm space-y-6 w-lg sm:border border-slate-300">
                 <h1 className="text-h1 mb-2">Sindo MS</h1>
                 <p className="text-small">Sign in to your account</p>

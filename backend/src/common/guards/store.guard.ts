@@ -5,7 +5,7 @@ import {
     Injectable,
 } from '@nestjs/common';
 import { StoreAccessService } from 'src/module/store-access/store-access.service';
-import { type AuthRequest } from '../types';
+import { type JwtRequest } from '../types';
 
 @Injectable()
 export class StoreGuard implements CanActivate {
@@ -13,7 +13,7 @@ export class StoreGuard implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const ctx = context.switchToHttp();
-        const req = ctx.getRequest<AuthRequest>();
+        const req = ctx.getRequest<JwtRequest>();
         const payload = req.user;
 
         const storeAccess = await this.storeAccessService.validateStoreAccess(

@@ -16,11 +16,11 @@ const SidebarItem = ({ icon: Icon, label, path }: SidebarItemProps) => {
   return (
     <button
       onClick={() => navigate(path)}
-      className={`flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors
+      className={`cursor-pointer flex w-full items-center gap-3 px-4 py-3 rounded-sm text-small transition-colors
       ${
         active
-          ? "bg-zinc-800 text-white"
-          : "text-zinc-400 hover:bg-zinc-800 hover:text-white"
+          ? "bg-slate-200 text-slate-900 font-medium"
+          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
       }`}
     >
       {Icon && <Icon size={18} />}
@@ -28,5 +28,4 @@ const SidebarItem = ({ icon: Icon, label, path }: SidebarItemProps) => {
     </button>
   );
 };
-
 export default SidebarItem;
