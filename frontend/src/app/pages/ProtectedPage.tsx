@@ -1,7 +1,7 @@
 import { useAuth } from '@/app/providers/auth'
 import { Outlet, Navigate } from "react-router"
 
-const ProtectedRoute = () => {
+const ProtectedPage = () => {
 
     const { isAuthenticated, isLoading } = useAuth()
 
@@ -20,4 +20,4 @@ const ProtectedRoute = () => {
     )
 }
 
-export default ProtectedRoute;
+export default ProtectedPage;

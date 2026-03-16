@@ -61,7 +61,7 @@ return (
       </button>
     </div>
   ) : (
-    <div className="min-h-screen bg-slate-200 flex items-center justify-center px-6 py-14">
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-6 py-14">
       <div className="w-full max-w-3xl">
 
         <div className="text-center mb-10">

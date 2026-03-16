@@ -15,6 +15,7 @@ type DashboardCardProps = {
 };
 
 export function DashboardCard({ title, value, icon: Icon }: DashboardCardProps) {
+
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-5 flex items-center justify-between">
       <div>
@@ -116,35 +117,113 @@ export default function DashboardPage() {
       </div>
 
       {/* Low Stock */}
-      <div className="bg-white border border-slate-200 rounded-lg p-5 overflow-x-auto">
-        <h2 className="font-semibold text-slate-700 mb-4">
-          Low Stock Products
-        </h2>
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm overflow-x-auto">
+  
+  <div className="flex items-center justify-between mb-5">
+    <h2 className="font-semibold text-slate-700 text-lg">
+      Low Stock Products
+    </h2>
 
-        <table className="w-full text-sm min-w-100">
-          <thead className="text-left text-slate-500">
-            <tr>
-              <th className="pb-2">Product</th>
-              <th className="pb-2">SKU</th>
-              <th className="pb-2">Stock</th>
-            </tr>
-          </thead>
+    <button className="text-sm bg-slate-900 text-white px-3 py-1.5 rounded-md hover:bg-slate-700">
+      View All
+    </button>
+  </div>
 
-          <tbody className="text-slate-700">
-            <tr className="border-t">
-              <td className="py-2">Laptop Charger</td>
-              <td>SKU-001</td>
-              <td className="text-red-500">3 left</td>
-            </tr>
+  <table className="w-full text-sm min-w-200">
+    
+    <thead className="text-left text-slate-500 border-b">
+      <tr>
+        <th className="pb-3 font-medium">Product</th>
+        <th className="pb-3 font-medium">SKU</th>
+        <th className="pb-3 font-medium">Category</th>
+        <th className="pb-3 font-medium">Price</th>
+        <th className="pb-3 font-medium">Stock</th>
+        <th className="pb-3 font-medium">Status</th>
+        <th className="pb-3 font-medium">Last Updated</th>
+        <th className="pb-3 font-medium text-right">Action</th>
+      </tr>
+    </thead>
 
-            <tr className="border-t">
-              <td className="py-2">USB Cable</td>
-              <td>SKU-002</td>
-              <td className="text-red-500">5 left</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <tbody className="text-slate-700">
+
+      <tr className="border-b hover:bg-slate-50">
+        <td className="py-3 flex items-center gap-3">
+          <img
+            src="https://via.placeholder.com/40"
+            className="w-9 h-9 rounded-md border"
+          />
+          Laptop Charger
+        </td>
+        <td>SKU-001</td>
+        <td>Accessories</td>
+        <td>$25.00</td>
+        <td className="text-red-500 font-medium">3</td>
+        <td>
+          <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs">
+            Low Stock
+          </span>
+        </td>
+        <td>2 hours ago</td>
+        <td className="text-right">
+          <button className="text-blue-600 hover:underline text-sm">
+            Restock
+          </button>
+        </td>
+      </tr>
+
+      <tr className="border-b hover:bg-slate-50">
+        <td className="py-3 flex items-center gap-3">
+          <img
+            src="https://via.placeholder.com/40"
+            className="w-9 h-9 rounded-md border"
+          />
+          USB Cable
+        </td>
+        <td>SKU-002</td>
+        <td>Cables</td>
+        <td>$8.00</td>
+        <td className="text-red-500 font-medium">5</td>
+        <td>
+          <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs">
+            Low Stock
+          </span>
+        </td>
+        <td>5 hours ago</td>
+        <td className="text-right">
+          <button className="text-blue-600 hover:underline text-sm">
+            Restock
+          </button>
+        </td>
+      </tr>
+
+      <tr className="hover:bg-slate-50">
+        <td className="py-3 flex items-center gap-3">
+          <img
+            src="https://via.placeholder.com/40"
+            className="w-9 h-9 rounded-md border"
+          />
+          Wireless Mouse
+        </td>
+        <td>SKU-003</td>
+        <td>Accessories</td>
+        <td>$18.00</td>
+        <td className="text-red-500 font-medium">2</td>
+        <td>
+          <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs">
+            Critical
+          </span>
+        </td>
+        <td>1 day ago</td>
+        <td className="text-right">
+          <button className="text-blue-600 hover:underline text-sm">
+            Restock
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
 
     </div>
   );

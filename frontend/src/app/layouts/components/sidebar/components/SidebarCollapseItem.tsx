@@ -16,11 +16,12 @@ const SidebarCollapseItem = ({
   isOpen,
   onToggle,
 }: SidebarCollapseItemProps) => {
+  
   return (
     <div className="space-y-1">
       <button
         onClick={onToggle}
-        className="cursor-pointer flex w-full items-center justify-between px-4 py-3 rounded-sm text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+        className="cursor-pointer flex w-full items-center justify-between p-3 rounded-sm text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
       >
         <div className="flex items-center gap-3">
           <Icon size={18} />
@@ -35,11 +36,13 @@ const SidebarCollapseItem = ({
         />
       </button>
 
-      {isOpen && (
-        <div className="ml-6 flex flex-col gap-1 border-l border-slate-200 pl-5">
-          {children}
-        </div>
-      )}
+      {
+        isOpen && (
+          <div className="ml-5 flex flex-col gap-1 border-l border-slate-200 pl-5">
+            {children}
+          </div>
+        )
+      }
     </div>
   );
 };

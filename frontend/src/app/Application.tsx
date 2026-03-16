@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { RouterProvider } from 'react-router'
-import router from './router/router'
+import router from './router'
 
 export const Application = () => {
 

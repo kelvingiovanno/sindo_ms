@@ -34,17 +34,11 @@ export const sidebarMenu: SidebarMenu[] = [
     path: "/",
   },
   {
-    type: "ITEM",
-    icon: ReceiptText,
-    label: "Create Invoice",
-    path: "/create-invoice",
-  },
-  {
     type: "COLLAPSE",
     icon: ReceiptText,
     label: "Sales",
     children: [
-      { type: "ITEM", label: "Invoices", path: "/invoices" },
+      { type: "ITEM", label: "Invoices", path: "/invoice" },
       { type: "ITEM", label: "Payments", path: "/payments" },
       { type: "ITEM", label: "Returns", path: "/returns" },
     ],

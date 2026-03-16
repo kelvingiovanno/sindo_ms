@@ -4,3 +4,4 @@ export * from "./label";
 export * from "./separator";
 export * from "./spinner";
 export * from "./field";
+export * from "./select";
