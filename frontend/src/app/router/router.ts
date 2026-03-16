@@ -7,6 +7,7 @@ import StoreSelectorPage from "@/features/store/StoreSelectorPage";
 import DashboardPage from "@/features/dashboard/DashboardPage";
 
 import ProtectedRoute from "./ProtectedRoute";
+import CreateInvoicePage from "@/features/invoice/CreateInvoicePage";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         Component: DashboardPage,
+                    },
+                    {
+                        path:'/create-invoice',
+                        Component: CreateInvoicePage,
                     },
                 ],
             },
