@@ -1,11 +1,12 @@
 import { useAuth } from "@/app/providers/auth";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
-import { FieldButton, Field, FieldLabel } from "@/shared/components/ui/field";
+import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { Button } from "@/shared/components/ui/button";
 
 const LoginPage = () => {
 
@@ -72,13 +73,13 @@ const LoginPage = () => {
                             onChange={(e) => {setPassword(e.target.value)}}
                         />
                     </Field>
-                    <FieldButton 
+                    <Button 
                         type="submit"
                         disabled={isLoading}
                         className="mt-6"
                     >
                         {isLoading ?  <>Processing <Spinner className="size-3"/></> : 'Sign In' }
-                    </FieldButton>
+                    </Button>
                 </form>
             </div>
         </div>
