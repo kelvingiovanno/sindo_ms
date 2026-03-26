@@ -1,28 +1,28 @@
 import { api, setAccessToken } from '@/shared/lib/api';
 import { AuthContext } from './AuthContext';
 import React, { useEffect, useState } from 'react';
-import type {
-    LoginApiResponse,
-    RefreshApiResponse,
-    SelecStoreApiResponse,
-} from '@/shared/types';
+import type { Auth } from '@/features/auth/auth.entity';
+import {
+    refreshApi,
+    selectStoreApi,
+    signinApi,
+    storeAccessApi,
+} from '@/features/auth';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
-    const [role, setRole] = useState<string|undefined>(undefined);
+    const [auth, setAuth] = useState<Auth | undefined>(undefined);
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const isPublicRoute = ['/signin', '/selec-store'];
+        const isPublicRoute = ['/signin', '/select-store'];
 
         const loadUser = async () => {
             try {
-                const res = await api.post<RefreshApiResponse>('auth/refresh');
-                setAccessToken(res.data.accessToken);
-                setAuthenticated(true);
+                const data = await refreshApi();
+                setAccessToken(data.accessToken);
+                setAuth(data.auth);
             } catch {
-                console.error('failded fetch user');
-                setAuthenticated(false);
+                setAuth(undefined);
             } finally {
                 setLoading(false);
             }
@@ -31,45 +31,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (!isPublicRoute.includes(window.location.pathname)) {
             loadUser();
         }
-    }, [isAuthenticated]);
+    }, [isLoading]);
 
     const login = async (username: string, password: string) => {
-        const res = await api.post<LoginApiResponse>('/auth/signin', {
-            username: username,
-            password: password,
-        });
-
-        const data = res.data;
-
+        const data = await signinApi(username, password);
         return data;
     };
 
     const selectStore = async (storeId: string, userId: string) => {
-        const res = await api.post<SelecStoreApiResponse>(
-            '/auth/select-store',
-            {
-                userId,
-                storeId,
-            },
-        );
+        const data = await selectStoreApi(storeId, userId);
+        setAuth(data.auth);
+        setAccessToken(data.accessToken);
+        setLoading(false);
+    };
 
-        const { accessToken } = res.data;
-
-        setAccessToken(accessToken);
-        setAuthenticated(true);
+    const storeAccess = async () => {
+        const data = await storeAccessApi();
+        return data;
     };
 
     const logout = async () => {
         await api.post('/auth/signout');
         setAccessToken(null);
-        setAuthenticated(false);
+        setAuth(undefined);
     };
 
     const value = {
-        isAuthenticated,
+        auth,
         isLoading,
         login,
         selectStore,
+        storeAccess,
         logout,
     };
 

@@ -1,6 +1,15 @@
 import type { UserRole } from '@/shared/types';
 import type { SidebarMenu } from './types/SidebarMenu';
-import { LayoutDashboard, ReceiptText, User, Package, Truck, FileText, Store, BarChart3 } from 'lucide-react';
+import {
+    LayoutDashboard,
+    ReceiptText,
+    User,
+    Package,
+    Truck,
+    FileText,
+    Store,
+    BarChart3,
+} from 'lucide-react';
 
 const adminSidebarMenu: SidebarMenu[] = [
     {
@@ -30,7 +39,7 @@ const adminSidebarMenu: SidebarMenu[] = [
         icon: Package,
         label: 'Inventory',
         children: [
-            { type: 'ITEM', label: 'Products', path: '/inventory' },
+            { type: 'ITEM', label: 'inventory', path: '/inventory' },
             {
                 type: 'ITEM',
                 label: 'Categories',

@@ -1,5 +1,10 @@
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
-import { Prisma, PrismaClient, UserRole } from '../generated/prisma/client';
+import {
+    Prisma,
+    PrismaClient,
+    InventoryStatus,
+    UserRole,
+} from '../generated/prisma/client';
 import { faker } from '@faker-js/faker';
 
 const adapter = new PrismaMariaDb({
@@ -59,8 +64,43 @@ async function main() {
             'Cooling System',
             'Fuel System',
         ].map((name) =>
-            prisma.productCategory.create({
-                data: { name },
+            prisma.inventoryCategory.create({
+                data: {
+                    name,
+                },
+            }),
+        ),
+    );
+
+    const models = await Promise.all(
+        [
+            'S6R',
+            'S12R',
+            'S16R',
+            'S4L2',
+            'S4Q2',
+            '6BT',
+            '4BT',
+            'QSB6.7',
+            'QSC8.3',
+            'ISX15',
+            'YANMAR 4TNV98',
+            'YANMAR 3TNV88',
+            'YANMAR 6LY2',
+            'CAT C7',
+            'CAT C9',
+            'CAT 320D',
+            'KUBOTA V3300',
+            'KUBOTA D902',
+            'PERKINS 1104D',
+            'PERKINS 403D',
+            'ISUZU 4JJ1',
+            'ISUZU 6HK1',
+        ].map((name) =>
+            prisma.inventoryModel.create({
+                data: {
+                    name,
+                },
             }),
         ),
     );
@@ -76,13 +116,13 @@ async function main() {
             'Scania Marine',
             'Deutz Marine',
         ].map((name) =>
-            prisma.productBrand.create({
+            prisma.inventoryBrand.create({
                 data: { name },
             }),
         ),
     );
 
-    const productUnits = await Promise.all(
+    const inventoryUnits = await Promise.all(
         [
             { name: 'pieces', symbol: 'pcs' },
             { name: 'unit', symbol: 'unit' },
@@ -103,7 +143,7 @@ async function main() {
             { name: 'barrel', symbol: 'bbl' },
             { name: 'carton', symbol: 'ctn' },
         ].map((unit) =>
-            prisma.productUnit.create({
+            prisma.inventoryUnit.create({
                 data: {
                     name: unit.name,
                     symbol: unit.symbol,
@@ -130,7 +170,8 @@ async function main() {
             const store = faker.helpers.arrayElement(stores);
             const category = faker.helpers.arrayElement(categories);
             const brand = faker.helpers.arrayElement(brands);
-            const unit = faker.helpers.arrayElement(productUnits);
+            const model = faker.helpers.arrayElement(models);
+            const unit = faker.helpers.arrayElement(inventoryUnits);
             const supplier = faker.helpers.arrayElement(suppliers);
 
             const cost = new Prisma.Decimal(
@@ -141,9 +182,23 @@ async function main() {
                 faker.number.int({ min: 30, max: 300 }),
             );
 
+            const minStock = new Prisma.Decimal(
+                faker.number.int({ min: 30, max: 300 }),
+            );
+
             const price = cost.mul(faker.number.float({ min: 1.2, max: 1.8 }));
 
-            return prisma.product.create({
+            let status: InventoryStatus;
+
+            if (stock > minStock) {
+                status = 'IN_STOCK';
+            } else if (stock < minStock) {
+                status = 'IN_STOCK';
+            } else {
+                status = 'OUT_OF_STOCK';
+            }
+
+            return prisma.inventory.create({
                 data: {
                     storeId: store.id,
                     sku: faker.string.uuid().slice(-5),
@@ -153,8 +208,11 @@ async function main() {
                     cost,
                     price,
                     stock: stock,
+                    minStock: minStock,
+                    status: status,
                     categoryId: category.id,
                     brandId: brand.id,
+                    modelId: model.id,
                     unitId: unit.id,
                     supplierId: supplier.id,
                 },

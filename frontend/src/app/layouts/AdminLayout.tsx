@@ -1,24 +1,14 @@
-import { Navigate, Outlet } from 'react-router';
 import { Sidebar } from '@/shared/components/layout/Sidebar';
-import { useAuth } from '../providers/auth/useAuth';
+import type { ReactNode } from 'react';
 
-const AdminLayout = () => {
-    const { isAuthenticated, isLoading } = useAuth();
-
-    if (isLoading) {
-        return <p>auth loading...</p>;
-    }
-
-    if (!isAuthenticated) {
-        return <Navigate to="/signin" replace />;
-    }
-
+const AdminLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <div className="flex w-full">
-            <Sidebar userRole={'ADMIN'} />
-            <main className="bg-slate-100 w-full lg:flex-1 h-screen overflow-y-auto">
-                <div className="relative max-w-440 mx-auto p-4 pt-22 lg:p-6 space-y-4">
-                    <Outlet />
+        <div className="flex min-h-screen w-full bg-slate-100">
+            <Sidebar userRole="ADMIN" />
+
+            <main className="flex-1 overflow-y-auto h-screen">
+                <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-8 lg:py-8 space-y-4">
+                    {children}
                 </div>
             </main>
         </div>

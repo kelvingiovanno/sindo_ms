@@ -1,7 +1,7 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
-  moduleFormat    = "cjs"
+  provider            = "prisma-client"
+  output              = "../generated/prisma"
+  moduleFormat        = "cjs"
   importFileExtension = ""
 }
 
@@ -16,12 +16,12 @@ enum UserRole {
 }
 
 model User {
-  id String @id @default(uuid())
-  role UserRole @default(VIEWER)
-  fullname String
-  username String @unique
-  password String
-  isRevoked Boolean @default(false)
+  id        String   @id @default(uuid())
+  role      UserRole @default(VIEWER)
+  fullname  String
+  username  String   @unique
+  password  String
+  isRevoked Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -30,105 +30,122 @@ model User {
 }
 
 model Refresh {
-  id String   @id @default(uuid())
-  token String @db.Text
-  userId String
+  id        String   @id @default(uuid())
+  token     String   @db.Text
+  userId    String
   createdAt DateTime @default(now())
   expiresIn DateTime
-  
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model Store {
-  id String @id @default(uuid())
-  name String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   storeAccesses StoreAccess[]
 }
 
 model StoreAccess {
-  storeId String 
-  userId String
-  
+  storeId String
+  userId  String
+
   stores Store @relation(fields: [storeId], references: [id])
-  users User @relation(fields: [userId], references: [id])
+  users  User  @relation(fields: [userId], references: [id])
 
   @@id([storeId, userId])
 }
 
-model ProductCategory {
-  id String @id @default(uuid())
-  name String @unique
-  products Product[]
+model InventoryCategory {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  Inventories Inventory[]
 }
 
-model ProductBrand {
-  id String @id @default(uuid())
-  name String @unique
-  products Product[]
+model InventoryBrand {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  Inventories Inventory[]
 }
 
-model ProductUnit {
-  id String @id @default(uuid())
-  name String @unique
-  symbol String @unique
-  products Product[]
+model InventoryUnit {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  symbol      String      @unique
+  Inventories Inventory[]
+}
+
+model InventoryModel {
+  id         String      @id @default(uuid())
+  name       String      @unique()
+  invetories Inventory[]
 }
 
 model Supplier {
-  id String @id @default(uuid())
-  name String
-  phone String @unique
-  email String @unique
-  address String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  name      String
+  phone     String    @unique
+  email     String    @unique
+  address   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  products Product[]
+  Inventories Inventory[]
 }
 
-model Product {
-  id String @id @default(uuid())
-  storeId String
-  sku String @unique
-  name String
-  partnumber String
-  description String
-  cost Decimal
-  price Decimal
-  stock Decimal
-  categoryId String
-  brandId String
-  unitId String
-  supplierId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  deletedAt DateTime?
+enum InventoryStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  LOW_STOCK
+  DISCONTINUED
+}
 
-  category ProductCategory @relation(fields: [categoryId], references: [id])
-  brand ProductBrand @relation(fields: [brandId], references: [id])
-  unit ProductUnit @relation(fields: [unitId], references: [id])
-  supplier Supplier @relation(fields: [supplierId], references: [id])
-  dimensions ProductDimension[]
+model Inventory {
+  id          String      @id @default(uuid())
+  storeId     String
+  sku         String      @unique
+  name        String
+  partnumber  String
+  description String
+  cost        Decimal
+  price       Decimal
+  stock       Decimal
+  minStock    Decimal
+  status      InventoryStatus
+  categoryId  String
+  brandId     String
+  modelId     String
+  unitId      String
+  supplierId  String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+
+  category   InventoryCategory    @relation(fields: [categoryId], references: [id])
+  brand      InventoryBrand       @relation(fields: [brandId], references: [id])
+  unit       InventoryUnit        @relation(fields: [unitId], references: [id])
+  supplier   Supplier             @relation(fields: [supplierId], references: [id])
+  model      InventoryModel       @relation(fields: [modelId], references: [id])
+  dimensions InventoryDimension[]
 }
 
 model MeasurementUnit {
-  id String @id @default(uuid())
-  name String @unique
+  id     String @id @default(uuid())
+  name   String @unique
   symbol String @unique
 }
 
-model ProductDimension {
-  id String @id @default(uuid())
-  productId String 
+model InventoryDimension {
+  id          String    @id @default(uuid())
+  InventoryId String
   measurement String
-  value Decimal
-  unitId String
-  product Product @relation(fields: [productId], references: [id])
+  value       Decimal
+  unitId      String
+  Inventory   Inventory @relation(fields: [InventoryId], references: [id])
 }

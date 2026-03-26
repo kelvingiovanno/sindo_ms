@@ -52,13 +52,14 @@ export const Sidebar = ({ userRole }: SidebarProps) => {
     return (
         <>
             <button
-                className="lg:hidden flex items-center justify-between p-3 border-b border-slate-300 bg-white absolute m-4 rounded-sm"
-                onClick={() => setMobileOpen(true)}
+                className="z-10 cursor-pointer lg:hidden flex items-center justify-between p-3 border-b border-slate-300 bg-white absolute m-4 rounded-sm"
+                onClick={() => {
+                    setMobileOpen(true);
+                }}
             >
                 <Menu size={22} />
             </button>
 
-            {/* OVERLAY */}
             {mobileOpen && (
                 <div
                     onClick={() => setMobileOpen(false)}

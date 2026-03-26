@@ -1,10 +1,12 @@
-import { createContext } from "react";
+import type { Auth, StoreAccessApiResponse } from '@/features/auth';
+import { createContext } from 'react';
 
 interface Context {
-    isAuthenticated: boolean;
+    auth: Auth | undefined;
     isLoading: boolean;
     login: (username: string, password: string) => void;
     selectStore: (storeId: string, userId: string) => void;
+    storeAccess: () => Promise<StoreAccessApiResponse>;
     logout: () => void;
 }
 

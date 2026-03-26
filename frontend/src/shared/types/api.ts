@@ -1,3 +1,5 @@
+import type { UserRole } from './User';
+
 export type LoginApiResponse = {
     userId: string;
     stores: {
@@ -13,4 +15,10 @@ export type RefreshApiResponse = {
 export type SelecStoreApiResponse = {
     accessToken: string;
     refreshToken: string;
+    user: {
+        id: string;
+        username: string;
+        role: UserRole;
+        storeId: string;
+    };
 };

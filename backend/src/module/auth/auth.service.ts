@@ -31,12 +31,9 @@ export class AuthService {
         return user;
     }
 
-    async login(userId: string) {
+    async storeAccess(userId: string) {
         const stores = await this.storeAccessService.getUserStoreAccess(userId);
-        return {
-            userId,
-            stores,
-        };
+        return stores;
     }
 
     async selectStore(storeId: string, userId: string) {
@@ -49,10 +46,13 @@ export class AuthService {
             throw new ForbiddenException('Store access denied');
         }
 
+        const user = storeAccess.users;
+
         const payload: Payload = {
-            sub: storeAccess.userId,
-            username: storeAccess.users.username,
-            role: storeAccess.users.role,
+            id: storeAccess.userId,
+            fullname: user.fullname,
+            username: user.username,
+            role: user.role,
             storeId: storeAccess.storeId,
         };
 
@@ -78,6 +78,7 @@ export class AuthService {
         return {
             accessToken,
             refreshToken,
+            auth: payload,
         };
     }
 
@@ -91,10 +92,13 @@ export class AuthService {
             throw new ForbiddenException('Store access denied');
         }
 
+        const user = storeAccess.users;
+
         const newPayload: Payload = {
-            sub: storeAccess.userId,
-            username: storeAccess.users.username,
-            role: storeAccess.users.role,
+            id: user.id,
+            fullname: user.fullname,
+            username: user.username,
+            role: user.role,
             storeId: storeAccess.storeId,
         };
 
@@ -120,6 +124,7 @@ export class AuthService {
         return {
             newAccessToken,
             newRefreshToken,
+            auth: newPayload,
         };
     }
 
@@ -158,7 +163,10 @@ export class AuthService {
 
             const accessToken = await this.gAccessToken(payload);
 
-            return accessToken;
+            return {
+                accessToken: accessToken,
+                auth: payload,
+            };
         } catch {
             throw new UnauthorizedException('Invalid refresh token');
         }
@@ -188,7 +196,8 @@ export class AuthService {
         });
 
         const newPayload: Payload = {
-            sub: payload.sub,
+            id: payload.id,
+            fullname: payload.fullname,
             username: payload.username,
             role: payload.role,
             storeId: payload.storeId,

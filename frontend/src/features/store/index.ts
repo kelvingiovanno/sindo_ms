@@ -1,3 +1,3 @@
 export * from './pages/StoreSelectorPage';
 
-export * from './hooks/useSwitchStore';
+export * from './store.entity';

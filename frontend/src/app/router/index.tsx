@@ -6,6 +6,8 @@ import NotFoundPage from '../pages/NotFoundPage';
 import { AuthGuard, RoleGuard } from './guard';
 import DashboardPage from '@/features/dashboard/pages/DashboardPage';
 import InvoicePage from '@/features/invoice/pages/InvoicePage';
+import InventoryListPage from '@/features/inventory/pages/inventory-list.page';
+import InventoryDetailPage from '@/features/inventory/pages/inventory-detail.page';
 
 const router = createBrowserRouter([
     {
@@ -50,9 +52,11 @@ const router = createBrowserRouter([
                         children: [
                             {
                                 index: true,
+                                Component: InventoryListPage,
                             },
                             {
-                                path: 'create',
+                                path: ':inventoryId',
+                                Component: InventoryDetailPage,
                             },
                         ],
                     },

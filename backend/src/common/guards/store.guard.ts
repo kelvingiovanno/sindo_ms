@@ -18,7 +18,7 @@ export class StoreGuard implements CanActivate {
 
         const storeAccess = await this.storeAccessService.validateStoreAccess(
             payload.storeId,
-            payload.sub,
+            payload.id,
         );
 
         if (!storeAccess) throw new ForbiddenException('Store access denied');

@@ -23,7 +23,11 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     async signin(@Req() req: LocalRequest) {
         const user = req.user;
-        return await this.authService.login(user.id);
+        const action = await this.authService.storeAccess(user.id);
+        return {
+            userId: user.id,
+            stores: action,
+        };
     }
 
     @Post('select-store')
@@ -42,9 +46,7 @@ export class AuthController {
             path: '/api/auth/refresh',
         });
 
-        return {
-            accessToken: action.accessToken,
-        };
+        return action;
     }
 
     @UseGuards(JwtGuard)
@@ -58,7 +60,7 @@ export class AuthController {
 
         const action = await this.authService.switchStore(
             user.storeId,
-            user.sub,
+            user.id,
         );
 
         res.clearCookie('refreshToken');
@@ -75,14 +77,19 @@ export class AuthController {
         };
     }
 
+    @UseGuards(JwtGuard)
+    @Post('store-access')
+    @HttpCode(HttpStatus.OK)
+    async storeAccess(@Req() req: JwtRequest) {
+        const user = req.user;
+        return await this.authService.storeAccess(user.id);
+    }
+
     @Post('refresh')
     @HttpCode(HttpStatus.OK)
     async refresh(@Req() req: Request) {
         const refreshToken = req.cookies.refreshToken as string;
-        const accessToken = await this.authService.refresh(refreshToken);
-        return {
-            accessToken: accessToken,
-        };
+        return await this.authService.refresh(refreshToken);
     }
 
     @UseGuards(JwtGuard)
@@ -92,7 +99,7 @@ export class AuthController {
         @Req() req: JwtRequest,
         @Res({ passthrough: true }) res: Response,
     ) {
-        const userId = req.user.sub;
+        const userId = req.user.id;
         await this.authService.logout(userId);
         res.clearCookie('refreshToken');
         return { message: 'Signed out successfully' };

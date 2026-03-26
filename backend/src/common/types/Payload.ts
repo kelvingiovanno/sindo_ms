@@ -1,6 +1,9 @@
+import { UserRole } from 'generated/prisma/enums';
+
 export interface Payload {
-    sub: string;
+    id: string;
+    fullname: string;
     username: string;
-    role: string;
+    role: UserRole;
     storeId: string;
 }

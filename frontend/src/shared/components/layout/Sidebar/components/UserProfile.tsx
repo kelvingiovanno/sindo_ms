@@ -1,6 +1,13 @@
+import { useAuth } from '@/app/providers/auth/useAuth';
 import { LogOut } from 'lucide-react';
 
 const UserProfile = () => {
+    const { auth } = useAuth();
+
+    if (!auth) {
+        throw new Error();
+    }
+
     return (
         <div className="border-t border-slate-300 px-6 py-4">
             <div className="flex items-center justify-between">
@@ -13,10 +20,10 @@ const UserProfile = () => {
 
                     <div className="flex flex-col">
                         <span className="text-sm font-medium text-slate-900">
-                            Kelvin Giovanno
+                            {auth.fullname}
                         </span>
                         <span className="text-xs text-slate-500">
-                            @kelvingiovanno
+                            {`@${auth.username}`}
                         </span>
                     </div>
                 </div>
