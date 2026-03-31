@@ -12,7 +12,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/shared/components/ui/alert-dialog';
-import { Edit, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import InventoryStockTable from '../components/InventoryStockTable';
 import InventorySupplierTable from '../components/InventorySupplierTable';
 import InventoryInformation from '../components/InventoryInformation';
@@ -20,6 +20,7 @@ import InventoryItemStats from '../components/InventoryItemStats';
 import InventoryImageCarousel from '../components/InventoryImageCarousel';
 import InventoryStockChart from '../components/InventoryStockChart';
 import InventoryPricingTable from '../components/InventoryPricingTable';
+import InventoryEditSheet from '../components/InventoryEditSheet';
 
 const InventoryDetailPage = () => {
     const { inventoryId } = useParams();
@@ -38,10 +39,7 @@ const InventoryDetailPage = () => {
                     <p className="text-xl font-semibold text-slate-900">
                         Stock Movement
                     </p>
-                    <Button variant={'outline'}>
-                        <Edit />
-                        Edit Inventory
-                    </Button>
+                    <InventoryEditSheet />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <InventoryImageCarousel

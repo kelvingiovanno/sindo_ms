@@ -1,4 +1,4 @@
-export interface StockItem {
+export interface InventoryMovementsItem {
     code: string;
     date: string;
     reference: string;
@@ -8,8 +8,8 @@ export interface StockItem {
     description: string;
 }
 
-export interface StockList {
-    data: StockItem[];
+export interface InventoryMovementsList {
+    data: InventoryMovementsItem[];
     meta: {
         page: number;
         row: number;

@@ -1,4 +1,4 @@
-export interface SupplierItem {
+export interface InventorySupplierItem {
     code: string;
     supplier: string;
     price: number;
@@ -8,8 +8,8 @@ export interface SupplierItem {
     preferred: boolean;
 }
 
-export interface SupplierList {
-    data: SupplierItem[];
+export interface InventorySupplierList {
+    data: InventorySupplierItem[];
     meta: {
         page: number;
         row: number;

@@ -1,6 +1,6 @@
 export type PricingStatus = 'ACTIVE' | 'INACTIVE' | 'EXPIRED';
 
-export interface PricingItem {
+export interface InventoryPricingItem {
     code: string;
     customer: string;
     customerCode: string;
@@ -11,8 +11,8 @@ export interface PricingItem {
     status: PricingStatus;
 }
 
-export interface PricingList {
-    data: PricingItem[];
+export interface InventoryPricingList {
+    data: InventoryPricingItem[];
     meta: {
         page: number;
         row: number;

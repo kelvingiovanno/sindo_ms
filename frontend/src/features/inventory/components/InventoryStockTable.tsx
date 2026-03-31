@@ -6,7 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/shared/components/ui/table';
-import type { StockItem } from '../types/Inventory-stock-list.type';
+import type { StockItem } from '../types/Inventory-movment-list.type';
 
 const InventoryStockTable = ({
     data,

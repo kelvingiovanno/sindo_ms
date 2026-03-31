@@ -7,6 +7,11 @@ tags:
   - name: Inventory
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     NotFound:
       type: object
@@ -17,7 +22,6 @@ components:
           type: string
         error:
           type: string
-
     Unauthorized:
       type: object
       properties:
@@ -31,6 +35,8 @@ paths:
     get:
       tags:
         - Inventory
+      security:
+        - BearerAuth: []
       parameters:
         - name: inventoryId
           in: path
@@ -40,10 +46,10 @@ paths:
 
       responses:
         '200':
-          description: Returen Inventory information
+          description: Inventory data retrieved successfully.
                 
         '401':
-          description: Missing or invalid accessToken cookie
+          description: Missing or invalid access token.
           content:
             application/json:
               schema:
@@ -54,14 +60,14 @@ paths:
                   "message": "Unauthorized",
                 } 
         '404':
-          description: Inventory resource not found
+          description: Inventory not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFound'
               example:
                 {
-                  "message": "Inventory resource not found",
+                  "message": "Inventory not found",
                   "statusCode": 404,
                   "error": "Not found"
                 }

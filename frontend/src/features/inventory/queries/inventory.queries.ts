@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getInventoriesList } from '../api/inventory.api';
+import { getInventories } from '../api/inventory.api';
 
-export const useInventoryList = (
+export const useInventories = (
     page: string | null,
     row: string | null,
     brand: string | null,
@@ -13,7 +13,7 @@ export const useInventoryList = (
     return useQuery({
         queryKey: ['INVENTORIES', page],
         queryFn: () =>
-            getInventoriesList(
+            getInventories(
                 page ?? '1',
                 row ?? '10',
                 brand ?? '',

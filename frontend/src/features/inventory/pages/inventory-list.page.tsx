@@ -7,7 +7,7 @@ import InventorySortMenu from '../components/InventorySortMenu';
 import InventoryStats from '../components/InventoryStats';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { useInventoryList } from '../queries/inventory-list.query';
+import { useInventories } from '../queries/inventory.queries';
 
 const InventoryListPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +20,7 @@ const InventoryListPage = () => {
     const [sort] = useState<string | null>(searchParams.get('sort'));
     const [order] = useState<string | null>(searchParams.get('order'));
 
-    const { data, isLoading } = useInventoryList(
+    const { data, isLoading } = useInventories(
         page,
         row,
         brands,
