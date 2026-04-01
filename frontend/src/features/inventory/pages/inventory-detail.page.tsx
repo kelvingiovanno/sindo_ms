@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Pangination from '@/shared/components/common/Pangination';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -12,7 +12,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/shared/components/ui/alert-dialog';
-import { Trash2 } from 'lucide-react';
+import { Edit, Settings, Trash2 } from 'lucide-react';
 import InventoryStockTable from '../components/InventoryStockTable';
 import InventorySupplierTable from '../components/InventorySupplierTable';
 import InventoryInformation from '../components/InventoryInformation';
@@ -20,10 +20,10 @@ import InventoryItemStats from '../components/InventoryItemStats';
 import InventoryImageCarousel from '../components/InventoryImageCarousel';
 import InventoryStockChart from '../components/InventoryStockChart';
 import InventoryPricingTable from '../components/InventoryPricingTable';
-import InventoryEditSheet from '../components/InventoryEditSheet';
 
 const InventoryDetailPage = () => {
     const { inventoryId } = useParams();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -36,10 +36,29 @@ const InventoryDetailPage = () => {
             </div>
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <p className="text-xl font-semibold text-slate-900">
-                        Stock Movement
-                    </p>
-                    <InventoryEditSheet />
+                    <h4 className="text-xl font-semibold text-slate-900">
+                        Information
+                    </h4>
+                    <div className="flex gap-4">
+                        <Button
+                            variant={'outline'}
+                            onClick={() => {
+                                navigate(`/inventory/${inventoryId}/edit`);
+                            }}
+                        >
+                            <Edit />
+                            Edit
+                        </Button>
+                        <Button
+                            variant={'outline'}
+                            onClick={() => {
+                                navigate(`/inventory/${inventoryId}/edit`);
+                            }}
+                        >
+                            <Settings />
+                            Setting
+                        </Button>
+                    </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <InventoryImageCarousel
@@ -72,9 +91,14 @@ const InventoryDetailPage = () => {
                 </div>
             </div>
             <div className="space-y-4">
-                <p className="text-xl font-semibold text-slate-900">
-                    Stock Movement
-                </p>
+                <div className="flex justify-between">
+                    <p className="text-xl font-semibold text-slate-900">
+                        Stock Movement
+                    </p>
+                    <Button>
+                        Adjust Stock
+                    </Button>
+                </div>
                 <div className="space-y-4">
                     <InventoryItemStats
                         currentStock={0}

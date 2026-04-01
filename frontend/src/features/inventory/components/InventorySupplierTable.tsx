@@ -36,20 +36,20 @@ const InventorySupplierTable = ({
                             Supplier
                         </TableHead>
 
-                        <TableHead className="text-center text-slate-500">
+                        <TableHead className="text-left text-slate-500">
                             Price
                         </TableHead>
 
-                        <TableHead className="text-center text-slate-500">
+                        <TableHead className="text-left text-slate-500">
                             Last Purchase
                         </TableHead>
 
-                        <TableHead className="text-center text-slate-500">
+                        <TableHead className="text-left text-slate-500">
                             Total Purchase
                         </TableHead>
 
-                        <TableHead className="text-center text-slate-500">
-                            Total Quantity
+                        <TableHead className="text-left text-slate-500">
+                            Total Qty
                         </TableHead>
 
                         <TableHead className="text-center text-slate-500">
@@ -103,7 +103,7 @@ const InventorySupplierTable = ({
                                     <TableCell className="text-left text-slate-700">
                                         {formatCurrencyIDR(item.totalPurchase)}
                                     </TableCell>
-                                    <TableCell className="text-center text-slate-700">
+                                    <TableCell className="text-left text-slate-700">
                                         {`${item.totalQuantity}  ${unit}`}
                                     </TableCell>
                                     <TableCell className="flex justify-center items-center text-slate-700">

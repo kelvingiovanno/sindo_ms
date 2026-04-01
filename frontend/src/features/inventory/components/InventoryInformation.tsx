@@ -16,7 +16,7 @@ const InventoryInformation = ({
                 isLoading ? 'opacity-70 animate-pulse' : ''
             }`}
         >
-            <CardContent className="flex flex-col gap-6">
+            <CardContent className="flex flex-col gap-6 h-full">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <div>
                         <p className="text-xs text-slate-500">Name</p>
@@ -79,38 +79,6 @@ const InventoryInformation = ({
                         </p>
                     </div>
                     <div>
-                        <p className="text-xs text-slate-500">Unit</p>
-                        <p className="text-sm font-medium text-slate-900">
-                            {isLoading ? (
-                                <div className="h-4 w-1/2 bg-slate-200 rounded my-1" />
-                            ) : (
-                                (data.unit ?? '-')
-                            )}
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-slate-500">
-                            Low Stock Alert
-                        </p>
-                        <p className="text-sm font-medium text-slate-900">
-                            {isLoading ? (
-                                <div className="h-4 w-1/2 bg-slate-200 rounded my-1" />
-                            ) : (
-                                (data.lowStockAlert ?? '-')
-                            )}
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-slate-500">Location</p>
-                        <p className="text-sm font-medium text-slate-900">
-                            {isLoading ? (
-                                <div className="h-4 w-1/2 bg-slate-200 rounded my-1" />
-                            ) : (
-                                (data.location ?? '-')
-                            )}
-                        </p>
-                    </div>
-                    <div>
                         <p className="text-xs text-slate-500">Cost</p>
                         <p className="text-sm font-medium text-slate-900">
                             {isLoading ? (
@@ -144,9 +112,9 @@ const InventoryInformation = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-4">
-                        <div className="bg-slate-50 rounded-sm p-4 border border-slate-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full ">
+                    <div className="flex flex-col space-y-4 h-full">
+                        <div className="flex-1 bg-slate-50 rounded-sm p-4 border border-slate-300">
                             <p className="text-xs font-medium text-slate-500 mb-2">
                                 Compatible Models
                             </p>
@@ -172,7 +140,7 @@ const InventoryInformation = ({
                                 )}
                             </div>
                         </div>
-                        <div className="bg-slate-50 rounded-sm p-4 border border-slate-300">
+                        <div className="flex-1 bg-slate-50 rounded-sm p-4 border border-slate-300">
                             <p className="text-xs font-medium text-slate-500 mb-2">
                                 Measurements
                             </p>

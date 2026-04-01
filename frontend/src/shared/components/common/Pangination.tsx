@@ -86,7 +86,7 @@ const Pangination = ({
 
                     <SelectContent
                         className="min-w-(--radix-select-trigger-width)"
-                        position='popper'
+                        position="popper"
                     >
                         <SelectItem className="text-xs" value="10">
                             10
@@ -101,11 +101,9 @@ const Pangination = ({
                 </Select>
             </div>
 
-            {/* RIGHT: Pagination */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                 <Pagination>
                     <PaginationContent className="flex flex-wrap justify-center sm:justify-end">
-                        {/* Previous */}
                         <PaginationItem>
                             <PaginationPrevious
                                 href="#"
@@ -123,7 +121,6 @@ const Pangination = ({
                             />
                         </PaginationItem>
 
-                        {/* Page numbers */}
                         {pages.map((p) => (
                             <PaginationItem key={p}>
                                 <PaginationLink
@@ -146,7 +143,6 @@ const Pangination = ({
                             </PaginationItem>
                         ))}
 
-                        {/* Next */}
                         <PaginationItem>
                             <PaginationNext
                                 href="#"
@@ -166,12 +162,12 @@ const Pangination = ({
                     </PaginationContent>
                 </Pagination>
 
-                {/* Page info + spinner */}
                 <span className="text-xs text-slate-500 text-center sm:text-left flex items-center gap-2">
                     {isLoading && (
                         <span className="h-3 w-3 rounded-full border-2 border-slate-400 border-t-transparent animate-spin" />
                     )}
-                    Showing {page * row - row + 1} - {page * row} of {totalPages}
+                    Showing {totalPages === 0 ? 0 : page * row - row + 1} -{' '}
+                    {page * row} of {totalPages}
                 </span>
             </div>
         </div>

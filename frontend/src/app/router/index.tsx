@@ -9,6 +9,7 @@ import InvoicePage from '@/features/invoice/pages/InvoicePage';
 import InventoryListPage from '@/features/inventory/pages/inventory-list.page';
 import InventoryDetailPage from '@/features/inventory/pages/inventory-detail.page';
 import CategoryPage from '@/features/category/pages/category.page';
+import InventoryEditPage from '@/features/inventory/pages/inventory-edit.page';
 
 const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
                             {
                                 path: ':inventoryId',
                                 Component: InventoryDetailPage,
+                            },
+                            {
+                                path: ':inventoryId/edit',
+                                Component: InventoryEditPage,
                             },
                         ],
                     },
